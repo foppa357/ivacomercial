@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(38,34,98,1);
+  overflow: hidden;
+}
+
+#slide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+</style>
+</head>
+
+<body>
+
+<img id="slide" alt="Slide">
+
+<script>
+const imagens = [
+  "https://i.postimg.cc/P5zCLW51/painel.png",
+  "https://i.postimg.cc/bNprSyCX/Image-(1).jpg",
+  "https://i.postimg.cc/qMS1YvN1/1.jpg",
+  "https://i.postimg.cc/J79TYhHC/2.jpg",
+  "https://i.postimg.cc/tJPzGhZ5/3.jpg",
+  "https://i.postimg.cc/KcgfTyq4/4.jpg",
+  "https://i.postimg.cc/3wRCxM00/5.jpg",
+  "https://i.postimg.cc/26LQn4xg/6.jpg",
+  "https://i.postimg.cc/wMhDGgZS/7.jpg",
+  "https://i.postimg.cc/pXHfn5nM/8.jpg",
+  "https://i.postimg.cc/hvqdxNvT/9.jpg",
+  "https://i.postimg.cc/QNp5sNnZ/10.jpg",
+  "https://i.postimg.cc/tJYF9Fsr/11.jpg"
+];
+
+let index = 0;
+let timer = null;
+
+function semCache(url) {
+  const sep = url.includes("?") ? "&" : "?";
+  return url + sep + "v=" + Date.now();
+}
+
+function aplicarLayout(img, imagemMenor) {
+  if (imagemMenor) {
+    img.style.width = "97vw";
+    img.style.height = "97vh";
+    img.style.top = "1.5vh";
+    img.style.left = "1.5vw";
+    img.style.objectFit = "contain";
+    img.style.objectPosition = "center center";
+  } else {
+    img.style.width = "100vw";
+    img.style.height = "100vh";
+    img.style.top = "0";
+    img.style.left = "0";
+    img.style.objectFit = "cover";
+    img.style.objectPosition = "center center";
+  }
+}
+
+function trocar() {
+  const img = document.getElementById("slide");
+  const imagemAtual = imagens[index];
+
+  const primeiraImagem = index === 0;
+  const imagemMenor = index === 0;
+  const tempo = primeiraImagem ? 30000 : 5000;
+
+  const proxSrc = semCache(imagemAtual);
+
+  img.style.opacity = "0";
+  clearTimeout(timer);
+
+  const nova = new Image();
+  nova.onload = () => {
+    aplicarLayout(img, imagemMenor);
+    img.src = proxSrc;
+    img.style.opacity = "1";
+
+    index = (index + 1) % imagens.length;
+    timer = setTimeout(trocar, tempo);
+  };
+
+  nova.onerror = () => {
+    index = (index + 1) % imagens.length;
+    timer = setTimeout(trocar, 1000);
+  };
+
+  nova.src = proxSrc;
+}
+
+trocar();
+</script>
+
+</body>
+</html>
