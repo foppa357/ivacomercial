@@ -57,12 +57,13 @@ function semCache(url) {
 
 function aplicarLayout(img, imagemMenor) {
   if (imagemMenor) {
-    img.style.width = "97vw";
-    img.style.height = "97vh";
-    img.style.top = "1.5vh";
-    img.style.left = "1.5vw";
+    img.style.width = "100vw";
+    img.style.height = "100vh";
+    img.style.top = "0";
+    img.style.left = "0";
     img.style.objectFit = "contain";
     img.style.objectPosition = "center center";
+    img.style.transform = "scaleX(1.3)";
   } else {
     img.style.width = "100vw";
     img.style.height = "100vh";
@@ -70,6 +71,7 @@ function aplicarLayout(img, imagemMenor) {
     img.style.left = "0";
     img.style.objectFit = "cover";
     img.style.objectPosition = "center center";
+    img.style.transform = "scaleX(1)";
   }
 }
 
@@ -79,7 +81,7 @@ function trocar() {
 
   const primeiraImagem = index === 0;
   const imagemMenor = index === 0;
-  const tempo = primeiraImagem ? 30000 : 5000;
+  const tempo = primeiraImagem ? 600000 : 5000;
 
   const proxSrc = semCache(imagemAtual);
 
